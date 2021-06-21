@@ -17,5 +17,15 @@ namespace EZParkin.API.Persistence.Repositories
         {
             return await _context.Users.ToListAsync();
         }
+
+        public async Task<User> CreateAsync(User user)
+        {
+            var userAlreadyExists = _context.Users.Where(w => w.Email == user.Email).FirstOrDefault();
+            if (userAlreadyExists != null) return userAlreadyExists;
+
+            await _context.Users.AddAsync(user);
+
+            return user;
+        }
     }
 }

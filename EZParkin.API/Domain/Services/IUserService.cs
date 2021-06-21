@@ -9,5 +9,7 @@ namespace EZParkin.API.Domain.Services
     public interface IUserService
     {
         Task<IEnumerable<User>> ListAsync();
+
+        Task<User> CreateAsync(User user);
     }
 }

@@ -20,5 +20,11 @@ namespace EZParkin.API.Services
         {
             return await _userRepository.ListAsync();
         }
+
+        public async Task<User> CreateAsync(User user)
+        {
+            var test = await _userRepository.CreateAsync(user);
+            return user;
+        }
     }
 }
