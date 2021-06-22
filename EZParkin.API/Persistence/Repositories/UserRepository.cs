@@ -13,19 +13,38 @@ namespace EZParkin.API.Persistence.Repositories
     {
         public UserRepository(AppDbContext context) : base(context) { }
 
+        public async Task<User> CreateAsync(User user)
+        {
+            await _context.Users.AddAsync(user);
+
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
+
+        public User Get(int userId)
+        {
+            return _context.Users.Where(w => w.Id == userId).AsNoTracking().FirstOrDefault();
+        }
+
+        public User Get(string email)
+        {
+            return _context.Users.Where(w => w.Email.ToUpper() == email.ToUpper()).AsNoTracking().FirstOrDefault();
+        }
+
         public async Task<IEnumerable<User>> ListAsync()
         {
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<User> CreateAsync(User user)
+        public async Task<User> UpdateAsync(User user)
         {
-            var userAlreadyExists = _context.Users.Where(w => w.Email == user.Email).FirstOrDefault();
-            if (userAlreadyExists != null) return userAlreadyExists;
+            throw new System.NotImplementedException();
+        }
 
-            await _context.Users.AddAsync(user);
-
-            return user;
+        public void Delete(int userId)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
