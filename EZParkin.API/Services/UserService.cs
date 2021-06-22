@@ -23,8 +23,11 @@ namespace EZParkin.API.Services
 
         public async Task<User> CreateAsync(User user)
         {
-            var test = await _userRepository.CreateAsync(user);
-            return user;
+            var userAlreadyExists = _userRepository.Get(user.Email);
+            if (userAlreadyExists != null) throw new Exception("E-mail already used. Try another one.");
+
+            var createdUser = await _userRepository.CreateAsync(user);
+            return createdUser;
         }
     }
 }
