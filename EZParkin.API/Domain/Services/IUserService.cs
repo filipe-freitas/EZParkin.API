@@ -8,8 +8,16 @@ namespace EZParkin.API.Domain.Services
 {
     public interface IUserService
     {
+        Task<User> CreateAsync(User user);
+
+        User Get(string userEmail);
+
+        User Get(int userId);
+
         Task<IEnumerable<User>> ListAsync();
 
-        Task<User> CreateAsync(User user);
+        Task<User> UpdateAsync(User user);
+
+        void Delete(int userId);
     }
 }

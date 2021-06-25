@@ -16,11 +16,6 @@ namespace EZParkin.API.Services
             _userRepository = userRepository;
         }
 
-        public async Task<IEnumerable<User>> ListAsync()
-        {
-            return await _userRepository.ListAsync();
-        }
-
         public async Task<User> CreateAsync(User user)
         {
             var userAlreadyExists = _userRepository.Get(user.Email);
@@ -28,6 +23,31 @@ namespace EZParkin.API.Services
 
             var createdUser = await _userRepository.CreateAsync(user);
             return createdUser;
+        }
+
+        public User Get(string userEmail)
+        {
+            return _userRepository.Get(userEmail);
+        }
+
+        public User Get(int userId)
+        {
+            return _userRepository.Get(userId);
+        }
+
+        public async Task<IEnumerable<User>> ListAsync()
+        {
+            return await _userRepository.ListAsync();
+        }
+
+        public async Task<User> UpdateAsync(User user)
+        {
+            return await _userRepository.UpdateAsync(user);
+        }
+
+        public void Delete(int userId)
+        {
+            _userRepository.Delete(userId);
         }
     }
 }
