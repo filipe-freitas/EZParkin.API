@@ -1,9 +1,7 @@
 ﻿using EZParkin.API.Domain.Models;
 using EZParkin.API.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EZParkin.API.Controllers

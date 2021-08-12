@@ -3,7 +3,6 @@ using EZParkin.API.Domain.Repositories;
 using EZParkin.API.Domain.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EZParkin.API.Services
