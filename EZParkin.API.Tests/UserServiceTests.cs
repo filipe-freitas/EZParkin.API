@@ -16,13 +16,14 @@ namespace EZParkin.API.Tests
         #region Create User
 
         [TestMethod]
-        public async Task CreateAsync_User_ReturnTheUser()
+        public async Task CreateAsync_UserWithInvalidEmail_ThrowAnException()
         {
             //Arrange
             var users = new List<User>();
 
             var mockUserRepository = new Mock<IUserRepository>();
-            mockUserRepository.Setup(setup => setup.CreateAsync(It.IsAny<User>())).ReturnsAsync((User user) => {
+            mockUserRepository.Setup(setup => setup.CreateAsync(It.IsAny<User>())).ReturnsAsync((User user) =>
+            {
                 users.Add(user);
                 return user;
             });
@@ -32,19 +33,16 @@ namespace EZParkin.API.Tests
             var user = new User
             {
                 Name = "John Doe",
-                Email = "john.doe@example.com",
-                Password = "abc123",
+                Email = "john.doe.example.com",
+                Password = "abc123"
             };
 
-            //Act
-            var createdUser = await mockUserService.CreateAsync(user);
-
-            //Assert
-            Assert.AreEqual(user.Email, createdUser.Email);
+            //Act & Assert
+            await Assert.ThrowsExceptionAsync<ArgumentException>(() => mockUserService.CreateAsync(user));
         }
 
         [TestMethod]
-        public async Task CreateAsync_UserWithSameEmail_ThrowAnException()
+        public async Task CreateAsync_UserWithUsedEmail_ThrowAnException()
         {
             //Arrange
             var users = new List<User>();
@@ -79,6 +77,63 @@ namespace EZParkin.API.Tests
 
             //Act & Assert
             await Assert.ThrowsExceptionAsync<Exception>(() => mockUserService.CreateAsync(secondUser));
+        }
+
+        [TestMethod]
+        public async Task CreateAsync_User_ReturnTheUserWithId()
+        {
+            //Arrange
+            var users = new List<User>();
+
+            var mockRepository = new Mock<IUserRepository>();
+            mockRepository.Setup(setup => setup.CreateAsync(It.IsAny<User>())).Callback((User user) =>
+            {
+                users.Add(user);
+            }).ReturnsAsync((User user) => user);
+
+            var mockUserService = new UserService(mockRepository.Object);
+
+            var user = new User
+            {
+                Name = "John Doe",
+                Email = "john.doe@example.com",
+                Password = "abc123",
+            };
+
+            //Act
+            var createdUser = await mockUserService.CreateAsync(user);
+
+            //Assert
+            Assert.AreNotEqual(createdUser.Id, user.Id);
+            Assert.AreNotEqual(createdUser.CreatedAt, user.CreatedAt);
+        }
+
+        [TestMethod]
+        public async Task CreateAsync_User_ReturnTheUser()
+        {
+            //Arrange
+            var users = new List<User>();
+
+            var mockUserRepository = new Mock<IUserRepository>();
+            mockUserRepository.Setup(setup => setup.CreateAsync(It.IsAny<User>())).ReturnsAsync((User user) => {
+                users.Add(user);
+                return user;
+            });
+
+            var mockUserService = new UserService(mockUserRepository.Object);
+
+            var user = new User
+            {
+                Name = "John Doe",
+                Email = "john.doe@example.com",
+                Password = "abc123",
+            };
+
+            //Act
+            var createdUser = await mockUserService.CreateAsync(user);
+
+            //Assert
+            Assert.AreEqual(user.Email, createdUser.Email);
         }
 
         #endregion
