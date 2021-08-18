@@ -38,7 +38,11 @@ namespace EZParkin.API.Persistence.Repositories
 
         public async Task<User> UpdateAsync(User user)
         {
-            throw new System.NotImplementedException();
+            _context.Attach(user);
+            _context.Entry(user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return user;
         }
 
         public void Delete(int userId)

@@ -41,7 +41,16 @@ namespace EZParkin.API.Services
 
         public async Task<User> UpdateAsync(User user)
         {
-            return await _userRepository.UpdateAsync(user);
+            var userExists = _userRepository.Get(user.Id);
+
+            if (userExists == null) throw new Exception("The user to be updated does not exist.");
+            if (userExists.Password != user.Password) throw new Exception("The provided password does not match. Try again.");
+
+            userExists.Name = user.Name;
+            userExists.Email = user.Email;
+            userExists.UpdatedAt = DateTime.Now;
+
+            return await _userRepository.UpdateAsync(userExists);
         }
 
         public void Delete(int userId)

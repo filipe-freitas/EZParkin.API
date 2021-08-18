@@ -38,5 +38,12 @@ namespace EZParkin.API.Controllers
             var users = await _userService.ListAsync();
             return users;
         }
+
+        [HttpPut]
+        public async Task<User> UpdateAsync(User user)
+        {
+            var updatedUser = await _userService.UpdateAsync(user);
+            return updatedUser;
+        }
     }
 }
