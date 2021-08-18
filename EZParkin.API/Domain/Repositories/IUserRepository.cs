@@ -16,6 +16,6 @@ namespace EZParkin.API.Domain.Repositories
 
         Task<User> UpdateAsync(User user);
 
-        void Delete(int userId);
+        Task Delete(int userId);
     }
 }

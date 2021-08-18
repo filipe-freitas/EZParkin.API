@@ -45,5 +45,11 @@ namespace EZParkin.API.Controllers
             var updatedUser = await _userService.UpdateAsync(user);
             return updatedUser;
         }
+
+        [HttpDelete("{userId}")]
+        public void Delete(int userId)
+        {
+            _userService.Delete(userId);
+        }
     }
 }

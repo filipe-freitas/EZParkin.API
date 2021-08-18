@@ -53,9 +53,12 @@ namespace EZParkin.API.Services
             return await _userRepository.UpdateAsync(userExists);
         }
 
-        public void Delete(int userId)
+        public async Task Delete(int userId)
         {
-            _userRepository.Delete(userId);
+            var user = _userRepository.Get(userId);
+            if (user == null) throw new Exception("User does not exist.");
+
+            await _userRepository.Delete(userId);
         }
     }
 }

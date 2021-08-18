@@ -45,9 +45,13 @@ namespace EZParkin.API.Persistence.Repositories
             return user;
         }
 
-        public void Delete(int userId)
+        public async Task Delete(int userId)
         {
-            throw new System.NotImplementedException();
+            var user = _context.Users.Where(w => w.Id == userId).FirstOrDefault();
+
+            _context.Remove(user);
+
+            await _context.SaveChangesAsync();
         }
     }
 }
