@@ -20,6 +20,18 @@ namespace EZParkin.API.Controllers
         {
             return await _userService.CreateAsync(user);
         }
+
+        [HttpGet("{email}")]
+        public User Get(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                throw new System.ArgumentNullException(email, "E-mail address not provided.");
+            }
+
+            return _userService.Get(email);
+        }
+
         [HttpGet]
         public async Task<IEnumerable<User>> GetAllAsync()
         {
