@@ -15,6 +15,11 @@ namespace EZParkin.API.Controllers
             _userService = userService;
         }
 
+        [HttpPost]
+        public async Task<User> CreateAsync(User user)
+        {
+            return await _userService.CreateAsync(user);
+        }
         [HttpGet]
         public async Task<IEnumerable<User>> GetAllAsync()
         {
